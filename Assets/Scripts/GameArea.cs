@@ -55,16 +55,6 @@ public class GameArea : MonoBehaviour
         }
     }
 
-    //Método para generar el área
-    //public void SetArea(Vector2 size)
-    //{
-    //    //Area = new Rect (0, 0,, size.x, size.y);
-    //    //Como lo de arriba
-    //    //Area = new Rect (Vector2.zero, size);
-    //    //Posición inicial en X e Y, ancho y alto
-    //    Area = new Rect(size.x * -0.5f, size.y * -0.5f, size.x, size.y);
-    //}
-
     //Método que nos permite dibujar Gizmos en la ventana de Escena
     void OnDrawGizmos()
     {
@@ -88,5 +78,16 @@ public class GameArea : MonoBehaviour
         Size = _size;
         //Inicializamos el color de las aristas del gizmo
         gizmoWireColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);
+    }
+
+    //Es un método que nos devuelve una posición aleatoria dentro del área de juego
+    public Vector3 GetRandomPosition()
+    {
+        Vector3 randomPos = Vector3.zero;
+        randomPos.x = Random.Range(Area.xMin, Area.xMax);
+        randomPos.y = Random.Range(Area.yMin, Area.yMax);
+        //Convertimos esas coordenadas locales obtenidas de dentro del área establecida, en globales respecto a Unity
+        randomPos = transform.TransformPoint(randomPos);
+        return randomPos;
     }
 }

@@ -217,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 380188319}
   - component: {fileID: 380188320}
+  - component: {fileID: 380188321}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -252,8 +253,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: {fileID: 8136841799107865004, guid: b960e68eaf3e53c478935a395bee7233, type: 3}
+  _minRate: 0.2
+  _maxRate: 5
   infinite: 0
   number: 5
+  area: {fileID: 1851324571}
+  player: {fileID: 1257236436}
+  minDistanceFromPlayer: 3
+--- !u!114 &380188321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380188318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34b7b8d2aaa7d34a87484a276608242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _area:
+    serializedVersion: 2
+    x: -0
+    y: -0
+    width: 0
+    height: 0
+  gizmoColor: {r: 0, g: 0, b: 1, a: 0.2}
 --- !u!1 &477775052
 GameObject:
   m_ObjectHideFlags: 0
