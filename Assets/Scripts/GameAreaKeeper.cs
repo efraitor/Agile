@@ -7,8 +7,8 @@ using UnityEngine;
  * Looping the object transform across a rectangle area
 */
 //Me agrega en el menú de componentes, un submenú espécifico
-[AddComponentMenu ("ESI/Transform Looper")]
-public class TransformLooper : MonoBehaviour
+[AddComponentMenu ("ESI/Game Area Keeper")]
+public class GameAreaKeeper : MonoBehaviour
 {
     //Declaramos una nueva área
     //public Rect area;
@@ -19,7 +19,7 @@ public class TransformLooper : MonoBehaviour
     public Vector2 areaSpacePosition;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Donde se encuentra el objeto en ese momento preciso
         //position = transform.position;
