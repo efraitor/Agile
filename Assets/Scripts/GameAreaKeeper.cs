@@ -18,6 +18,13 @@ public class GameAreaKeeper : MonoBehaviour
     //Referencia para guardar la posición de la nave
     public Vector2 areaSpacePosition;
 
+    private void Start()
+    {
+        //Recogemos un área si no la hubiera
+        if (!gameArea)
+            gameArea = GameArea.Main;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {

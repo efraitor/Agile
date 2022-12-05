@@ -26,7 +26,7 @@ public class Spawner : MonoBehaviour
     [Header("LOCATIONSS")]
     public GameArea area;
     //Obtenemos el jugador y una distancia hasta él para que los meteoritos aparezcan alejados
-    private Transform player;
+    private Transform _player;
     public float minDistanceFromPlayer;
 
     [Header("VELOCITY")]
@@ -36,9 +36,12 @@ public class Spawner : MonoBehaviour
     [Range(0f, 10f)] public float maxStrength = 10f;
 
     [Header("ANIMATION")]
+    public string animatorSpawningParameterName = "Spawning";
     public float animatorDelayIn = 1f;
     public float animatorDelayOut = 1f;
     private Animator _animator;
+    //Referencia para el parámetro del Animator
+    private int _spawningHashID;
 
     ////Contador
     //private float _timeStamp;
@@ -48,6 +51,8 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        if (_animator)
+            _spawningHashID = Animator.StringToHash(animatorSpawningParameterName);
     }
 
     //Corrutina para que empiecen a salir los asteroides
@@ -63,7 +68,7 @@ public class Spawner : MonoBehaviour
             GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
             //Comprobamos si existe
             if (playerGO)
-                player = playerGO.transform;
+                _player = playerGO.transform;
             //Si no existe
             else
                 Debug.LogWarning("No player found. Please assign Player tag to Player Object");
@@ -73,7 +78,9 @@ public class Spawner : MonoBehaviour
         if (_animator)
         {
             //Hacemos visible el agujero de gusano
-            _animator.SetBool("Spawning", true);
+            _animator.SetBool(_spawningHashID, true);
+            //Esperamos un tiempo
+            yield return new WaitForSeconds(animatorDelayIn);
         }
 
         //Hasta el infinito o hasta que queden asteroides por salir
@@ -83,21 +90,22 @@ public class Spawner : MonoBehaviour
             Vector3 _position = area ? area.GetRandomPosition() : transform.position;
 
             //Si existe un jugador y la distancia entre el meteorito que se va a instanciar y el jugador es menor que la distancia permitida 
-            if(player && Vector3.Distance(_position, player.position) < minDistanceFromPlayer)
+            if(_player && Vector3.Distance(_position, _player.position) < minDistanceFromPlayer)
             {
                 //Debug.Log(_position);
                 //Referencia a un Vector2 que nos sirve para conocer donde a priori aparecería el meteorito
                 Vector2 debugPos = _position;
                 //Dibujamos un línea en el inspector de Unity, desde el spawner al meteorito
-                Debug.DrawLine(player.position, debugPos);
+                Debug.DrawLine(_player.position, debugPos);
                 //Creamos una posición nueva en la misma dirección, lo suficientemente separada del jugador
-                _position = (_position - player.position).normalized * minDistanceFromPlayer;
+                _position = (_position - _player.position).normalized * minDistanceFromPlayer;
                 //Dibujamos un línea en el inspector de Unity, desde el spawner al meteorito
                 Debug.DrawLine(debugPos, _position);
                 //Pausa el juego en el editor de Unit
                 //Debug.Break();
             }
 
+            // TODO: Use Object Pooling
             //Instanciamos un objeto y restamos 1 de los que quedan
             GameObject obj = Instantiate(reference, _position, transform.rotation);
             //Referenciamos el Rigidbody del asteroide concreto
@@ -127,7 +135,12 @@ public class Spawner : MonoBehaviour
         //Hacemos desaparecer ahora el agujero de gusano
         if (_animator)
         {
-            _animator.SetBool("Spawning", false);
+            _animator.SetBool(_spawningHashID, false);
+            //Esperamos un tiempo
+            yield return new WaitForSeconds(animatorDelayOut);
         }
+
+        //Desactivamos el agujero de gusano
+        gameObject.SetActive(false);
     }
 }

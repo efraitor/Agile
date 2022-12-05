@@ -27,6 +27,35 @@ public class GameArea : MonoBehaviour
         set { _area = value; }
     }
 
+    //Creamos una referencia con su accesor para el GameArea principal
+    private static GameArea _main;
+    public static GameArea Main
+    {
+        get
+        {
+            //Si esa referencia está vacía
+            if (_main == null)
+            {
+                //La busco en la escena y la relleno
+                _main = FindObjectOfType<GameArea>();
+                //Pero si no hay una que recoger de la escena
+                if (_main == null)
+                {
+                    //Creo un objeto vacío con los componentes necesarios que me permita rellenarla
+                    GameObject go = new GameObject("Game Area: Main");
+                    _main = go.AddComponent<GameArea>();
+                    go.AddComponent<FitAreaToCamera>();
+                }
+            }
+                
+            return _main;
+        }
+        set
+        {
+            _main = value;
+        }
+    }
+
     //Tamaño del área
     private Vector2 _size;
 
