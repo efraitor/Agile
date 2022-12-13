@@ -46,8 +46,7 @@ public class GameArea : MonoBehaviour
                     _main = go.AddComponent<GameArea>();
                     go.AddComponent<FitAreaToCamera>();
                 }
-            }
-                
+            }       
             return _main;
         }
         set

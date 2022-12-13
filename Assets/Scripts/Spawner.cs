@@ -8,8 +8,6 @@ using UnityEngine;
 
 //Atributos, en este caso de la clase
 [AddComponentMenu("ESI/Spawner")]
-//Significa que necesariamente la clase necesita un GameArea para poder funcionar
-[RequireComponent(typeof(GameArea))]
 public class Spawner : MonoBehaviour
 {
     //Atributo de la variable Encabezado
@@ -58,6 +56,10 @@ public class Spawner : MonoBehaviour
     //Corrutina para que empiecen a salir los asteroides
     private IEnumerator Start()
     {
+        //Recogemos un área si no la hubiera
+        if (!area)
+            area = GameArea.Main;
+
         //Inicializo con el número público de arriba
         _remaining = number;
 
